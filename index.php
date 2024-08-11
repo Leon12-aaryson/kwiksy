@@ -6,14 +6,34 @@ include "include.php";
 <body class="container">
   <h1>Phonebook</h1>
 
-  <div class="col-md-6 p-2 mt-4">
-    <h4>Add Contact</h4>
-    <input type="text" id="phone" placeholder="Enter phone number" class="form-control p-2">
-    <input type="text" id="name" placeholder="Enter name" class="form-control p-2">
-    <input type="email" id="email" placeholder="Enter Email" class="form-control p-2">
-    <input type="text" id="address" placeholder="Enter address" class="form-control p-2">
-    <button onclick="submitContact()" class="btn btn-secondary">Submit</button>
+  <div class="row">
+
+    <div class="col-md-6 p-2 mt-4">
+      <h4>Add Contact</h4>
+      <input type="text" id="phone" placeholder="Enter phone number" class="form-control p-2">
+      <input type="text" id="name" placeholder="Enter name" class="form-control p-2">
+      <input type="email" id="email" placeholder="Enter Email" class="form-control p-2">
+      <input type="text" id="address" placeholder="Enter address" class="form-control p-2">
+      <button onclick="submitContact()" class="btn btn-secondary">Submit</button>
+    </div>
+    <div class="col-md-6">
+      <h4>All Data</h4>
+      <table id="data_table" class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody id="data_result">
+        </tbody>
+      </table>
+    </div>
   </div>
+
+  <hr class="mt-5">
+  <h3>The above is data entry and all data</h3>
+  <hr>
 
   <div class="row">
     <div class="col-md-6">
@@ -53,6 +73,38 @@ include "include.php";
       </tbody>
     </table>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchData();
+    });
+
+    function fetchData() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "data.php", true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          const results = JSON.parse(xhr.responseText);
+          displayData(results);
+        }
+      };
+      xhr.send();
+    }
+
+    function displayData(data) {
+      const resultTbody = document.getElementById('data_result');
+      if (data.status === "error") {
+        resultTbody.innerHTML = `<tr><td colspan="2">${data.message}</td></tr>`;
+      } else {
+        resultTbody.innerHTML = data.map(item => `
+            <tr>
+              <td>${item.name}</td>
+              <td>${item.phone}</td>
+            </tr>
+          `).join('');
+      }
+    }
+  </script>
 
 
   <script>
