@@ -1,0 +1,14 @@
+body {
+  padding: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+input{
+  // margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-control:focus {
+  border-color: none;
+  box-shadow: none;
+}
