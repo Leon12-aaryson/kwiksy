@@ -1,4 +1,4 @@
-# quiksy
+# Kwiksy
 In the system developed.
 - I used PHP, JavaScript(JQuery)
 
